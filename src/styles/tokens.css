@@ -1,0 +1,119 @@
+/* avery.pet design tokens, from the design system's tokens.css. Font families point
+   at the next/font variables set on <html> in layout.tsx. */
+:root, [data-theme="paper"] {
+  --paper: #fdfcf7; /* Page background, and the lightest thing on the page: cream-white (OKLCH 0.99 L, hue 97). Content sits on top of it in darker stock. Also the text on fern fills and the white of the pixel collie. */
+  --card: #f5f1e6; /* Content surface: index cards, guestbook entries, form fields. Cream (OKLCH 0.96 L, chroma 0.015, hue 90): one step darker than paper, so content reads as sheets laid on a bright desk. */
+  --card-back: #e9e2d1; /* The back of a card: the folded dog-ear flap, one step darker again on the same cream hue (OKLCH 0.91 L, hue 88). Decorative ground only; ink-muted on it is 4.9:1. */
+  --rule: #d8d0bd; /* Decorative hairlines: card outlines, the fold's edges, dotted log dividers, the card lift shadow. Too faint to carry meaning (1.5:1 on paper, 1.4:1 on card); use edge for anything a person must see. */
+  --edge: #7f7765; /* Borders that carry meaning: text inputs, textareas, checkboxes. 4.3:1 on paper, 3.9:1 on card. */
+  --ink-muted: #655f51; /* Metadata: dates, captions, footer text, placeholders. 6.2:1 on paper, 5.6:1 on card, 5.4:1 on sage, 4.9:1 on card-back. */
+  --ink-soft: #4a463b; /* Secondary text: card descriptions, guestbook messages, the tagline, nav links at rest. 9.2:1 on paper, 8.3:1 on card, 8.1:1 on sage. */
+  --ink: #25231d; /* Body text and headings on any surface (15.3:1 on paper, 13.9:1 on card, 13.4:1 on sage). Also the black of the pixel collie. */
+  --fern: #2c7337; /* Clover green, the one accent (OKLCH 0.50 L, chroma 0.12, hue 147). Links, catalogue numbers, the 'ongoing' stamp, the focus ring, button fill. 5.7:1 on paper, 5.1:1 on card, 5.0:1 on sage. paper text on a fern fill is 5.7:1. */
+  --fern-deep: #1f5528; /* Link and button hover, the 'prototype' stamp, the now note's label, guestbook replies (OKLCH 0.40 L, hue 147). 8.6:1 on paper, 7.8:1 on card, 7.5:1 on sage. */
+  --moss: #8cc394; /* Decorative green only: the now note's dashed border, the flap on a fern block (OKLCH 0.77 L, hue 148). 1.8:1 on card, so never text or a meaningful border. */
+  --sage: #e2f2dc; /* The green content surface, close to card in lightness (OKLCH 0.94 L, hue 137): the now note, text selection, the current-nav wash. Text on it: ink, ink-soft, fern, fern-deep. */
+  --tan: #8a5612; /* Honey amber (OKLCH 0.50 L, hue 67), the only warm accent: the 'in the kennel' (paused) stamp and nothing else. 6.0:1 on paper, 5.4:1 on card, 5.3:1 on sage. */
+  --lift: 3px 3px 0 #d8d0bd; /* A flat offset shadow in rule colour, used only on a hovered card (as a drop-shadow, so it follows the dog-ear). No blurred shadows anywhere. */
+}
+:root {
+  --space-1: 4px; /* Gap between a stamp and its neighbours; icon nudges. */
+  --space-2: 8px; /* Label to title inside a card; gap in the nav. */
+  --space-3: 12px; /* Card top padding; gap between log rows; card grid gap. */
+  --space-4: 16px; /* Card side and bottom padding; now note padding. */
+  --space-6: 24px; /* Between a heading and what it introduces. */
+  --space-8: 32px; /* Page side padding on wide screens. */
+  --space-12: 48px; /* Between page sections. */
+  --space-16: 64px; /* Above the footer; top of the page. */
+  --radius-0: 0; /* Cards, guestbook entries, the now note, badges. Paper has square corners. */
+  --radius-1: 2px; /* Stamps: the softened corners of a rubber stamp. */
+  --radius-2: 4px; /* Buttons, text inputs, textareas. */
+  --fold-size: 18px; /* The dog-ear on a card at rest. */
+  --fold-size-hover: 26px; /* The dog-ear when a card is hovered or focused: the corner folds a little further, as if someone has been reading it. */
+  --measure: 42rem; /* Maximum width of running text. */
+  --page-max: 60rem; /* Maximum width of the page column, card grid included. */
+  --pixel: 2px; /* One pixel of the pixel collie, which is 32 by 32 pixels, so 64 by 64px on screen. Keep it a whole number so the pixels stay crisp. */
+  --font-serif: var(--font-newsreader), "Newsreader", "Iowan Old Style", Georgia, serif;
+  --font-mono: var(--font-ibm-plex-mono), "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --text-wordmark: 400 34px/40px var(--font-serif); /* The site name in the header, and nowhere else. */
+  --text-title: 500 32px/38px var(--font-serif); /* One page title per page (h1). */
+  --text-heading: 500 22px/28px var(--font-serif); /* Section headings (h2) and card titles. */
+  --text-subheading: 500 18px/26px var(--font-serif); /* h3, guestbook names, small section titles. */
+  --text-body: 400 18px/28px var(--font-serif); /* Running text. Newsreader has a small x-height, so body stays at 18px. */
+  --text-body-small: 400 16px/24px var(--font-serif); /* Card descriptions, log entries, guestbook messages, the now note. */
+  --text-aside: italic 400 18px/28px var(--font-serif); /* Pull quotes and asides in your own voice. */
+  --text-label: 500 12px/16px var(--font-mono); /* Catalogue numbers, stamps, form labels, the 'now' tag. */
+  --text-meta: 400 13px/20px var(--font-mono); /* Dates, the nav, the footer, button text. */
+  --text-code: 400 15px/24px var(--font-mono); /* Inline code and code blocks inside articles. */
+}
+.wordmark {
+  font-family: var(--font-serif);
+  font-size: 34px;
+  line-height: 40px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.title {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  line-height: 38px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.heading {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.subheading {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.body {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.body-small {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.aside {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 400;
+  letter-spacing: 0;
+  font-style: italic;
+}
+.label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.meta {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.code {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: 400;
+  letter-spacing: 0;
+}

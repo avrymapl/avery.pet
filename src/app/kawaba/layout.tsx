@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { SidebarShell } from "@/components/SidebarShell";
-import { KawabaSidebar } from "@/components/kawaba/KawabaSidebar";
+import { SitePage } from "@/components/SitePage";
+import { kawabaNav } from "@/lib/kawaba/kawaba-nav";
+import { lastFetched } from "@/lib/updates";
 
 const description =
   "a minimalist oligosynthetic constructed language";
@@ -28,5 +29,14 @@ export const metadata: Metadata = {
 };
 
 export default function KawabaLayout({ children }: { children: React.ReactNode }) {
-  return <SidebarShell sidebar={<KawabaSidebar />}>{children}</SidebarShell>;
+  return (
+    <SitePage
+      subsite={{ name: "kawaba", href: "/kawaba" }}
+      tagline="the language of parts"
+      nav={kawabaNav}
+      lastFetched={lastFetched("kawaba")}
+    >
+      {children}
+    </SitePage>
+  );
 }

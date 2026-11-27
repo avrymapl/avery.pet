@@ -1,15 +1,11 @@
-export interface KawabaNavItem {
-  title: string;
-  href: string;
-  // Set to distinguish interactive tools (e.g. "search") from static article pages.
-  icon?: string;
-}
+import type { NavItem } from "@/components/SiteNav";
 
-export const kawabaNav: KawabaNavItem[] = [
-  { title: "dictionary", href: "/kawaba/dictionary", icon: "search" },
-  { title: "overview", href: "/kawaba" },
-  { title: "phonology", href: "/kawaba/phonology" },
-  { title: "morphology", href: "/kawaba/morphology" },
-  { title: "word classes", href: "/kawaba/word-classes" },
-  { title: "clauses", href: "/kawaba/clauses" },
+// The overview lives at /kawaba, which the "kawaba" half of the wordmark
+// links to, so the nav keeps to five items.
+export const kawabaNav: NavItem[] = [
+  { label: "dictionary", href: "/kawaba/dictionary" },
+  { label: "phonology", href: "/kawaba/phonology" },
+  { label: "morphology", href: "/kawaba/morphology" },
+  { label: "word classes", href: "/kawaba/word-classes" },
+  { label: "clauses", href: "/kawaba/clauses" },
 ];

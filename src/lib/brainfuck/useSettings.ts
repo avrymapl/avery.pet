@@ -1,7 +1,7 @@
 "use client";
 
-// The interpreter settings are edited in the sidebar (rendered by the
-// layout) but consumed by the ide page, so they live in the shared
+// The interpreter settings are edited in the settings bar but consumed by
+// the ide, so they live in the shared
 // persistent store rather than in either component.
 
 import { useCallback, useMemo } from "react";

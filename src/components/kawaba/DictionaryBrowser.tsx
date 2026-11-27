@@ -69,17 +69,14 @@ export function DictionaryBrowser({ glyphs }: { glyphs: Record<string, string> }
           onChange={(event) => setQuery(event.target.value)}
           placeholder="search Kawaba or English…"
           aria-label="search the dictionary"
-          className="dictionary-search"
+          className="ap-input dictionary-search"
         />
-        <label className="toggle">
+        <label className="checkbox">
           <input
             type="checkbox"
             checked={morphemesOnly}
             onChange={(event) => setmorphemesOnly(event.target.checked)}
           />
-          <span className="toggle-track">
-            <span className="toggle-thumb" />
-          </span>
           morphemes only
         </label>
       </div>

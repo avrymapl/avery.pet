@@ -18,15 +18,15 @@ function baseClass(ch: string): string {
       return "text-ink";
     case "<":
     case ">":
-      return "text-green-deep";
+      return "text-fern-deep";
     case "[":
     case "]":
-      return "font-bold text-amber";
+      return "font-medium text-ink";
     case ".":
     case ",":
-      return "text-rust";
+      return "font-medium text-fern";
     default:
-      return "text-ink-soft/50";
+      return "text-ink-muted";
   }
 }
 
@@ -44,10 +44,12 @@ function segment(
   errorOffset: number,
 ): Segment[] {
   const extras = new Map<number, string>();
-  if (bracketOpen >= 0) extras.set(bracketOpen, "rounded-xs bg-green-pale");
-  if (bracketClose >= 0) extras.set(bracketClose, "rounded-xs bg-green-pale");
-  if (currentIp >= 0) extras.set(currentIp, "rounded-xs bg-amber-pale");
-  if (errorOffset >= 0) extras.set(errorOffset, "rounded-xs bg-rust text-paper");
+  // Paired brackets get an outline, the executing command a sage wash (like
+  // the current page in the nav), and an error is inverted to ink.
+  if (bracketOpen >= 0) extras.set(bracketOpen, "shadow-[inset_0_0_0_1px_var(--edge)]");
+  if (bracketClose >= 0) extras.set(bracketClose, "shadow-[inset_0_0_0_1px_var(--edge)]");
+  if (currentIp >= 0) extras.set(currentIp, "bg-sage");
+  if (errorOffset >= 0) extras.set(errorOffset, "bg-ink !text-paper");
 
   const segments: Segment[] = [];
   let runClass = "";
@@ -190,9 +192,9 @@ export function BrainfuckEditor({
 
   return (
     <div
-      className={`flex overflow-hidden rounded-md border border-border bg-card ${className}`}
+      className={`flex overflow-hidden border border-rule bg-card focus-within:outline-2 focus-within:outline-offset-3 focus-within:outline-fern ${className}`}
     >
-      <div className="relative w-12 shrink-0 overflow-hidden border-r border-border bg-paper-soft pt-3 select-none">
+      <div className="relative w-12 shrink-0 overflow-hidden border-r border-rule pt-3 select-none">
         <div ref={gutterRef}>
           {Array.from({ length: lineCount }, (_, line) => (
             <button
@@ -202,10 +204,10 @@ export function BrainfuckEditor({
               onClick={() => onToggleBreakpoint(line)}
               aria-label={`toggle breakpoint on line ${line + 1}`}
               title="toggle breakpoint"
-              className="flex h-6 w-full cursor-pointer items-center justify-end gap-1 pr-2 font-mono text-xs text-ink-soft/60 hover:text-rust"
+              className="flex h-6 w-full cursor-pointer items-center justify-end gap-1 pr-2 font-mono text-xs text-ink-muted hover:text-fern"
             >
               {breakpoints.has(line) && (
-                <span aria-hidden className="h-2 w-2 rounded-full bg-rust" />
+                <span aria-hidden className="h-2 w-2 bg-fern" />
               )}
               {line + 1}
             </button>
@@ -247,7 +249,7 @@ export function BrainfuckEditor({
           autoCapitalize="off"
           aria-label="brainfuck program"
           placeholder="type or import a brainfuck program…"
-          className={`bf-editor-input absolute inset-0 resize-none overflow-auto bg-transparent text-transparent caret-ink outline-none placeholder:text-ink-soft/50 ${TEXT_CLASSES} ${PADDING_CLASSES}`}
+          className={`bf-editor-input absolute inset-0 resize-none overflow-auto bg-transparent text-transparent caret-ink outline-none placeholder:text-ink-muted ${TEXT_CLASSES} ${PADDING_CLASSES}`}
         />
         {/* Ruler for measuring the monospace advance width; ten characters wide. */}
         <span

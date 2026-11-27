@@ -90,14 +90,14 @@ export function BrainfuckTape({
           onClick={() => onSelect(i)}
           title={label ? `cell ${i} – ${label}` : `cell ${i}`}
           style={{ left: i * CELL_WIDTH_PX, width: CELL_WIDTH_PX }}
-          className={`absolute inset-y-0 flex cursor-pointer flex-col items-center justify-center gap-0.5 border-r border-border px-1 text-center font-mono ${
-            isPointer ? "bg-amber-pale" : "hover:bg-paper-soft"
+          className={`absolute inset-y-0 flex cursor-pointer flex-col items-center justify-center gap-0.5 border-r border-rule px-1 text-center font-mono ${
+            isPointer ? "bg-sage" : "hover:bg-paper"
           }`}
         >
-          <span className={`text-[10px] leading-none ${isPointer ? "text-amber" : "text-ink-soft/70"}`}>
+          <span className={`text-[10px] leading-none ${isPointer ? "text-fern-deep" : "text-ink-muted"}`}>
             {i}
           </span>
-          <span className={`text-sm leading-tight font-bold ${isPointer ? "text-amber" : "text-ink"}`}>
+          <span className={`text-sm leading-tight font-medium ${isPointer ? "text-fern-deep" : "text-ink"}`}>
             {tape[i]}
           </span>
           <span className="h-4 text-xs leading-none text-ink-soft">{printable(tape[i])}</span>
@@ -113,10 +113,10 @@ export function BrainfuckTape({
               autoFocus
               placeholder="label"
               aria-label={`label for cell ${i}`}
-              className="w-full rounded-xs border border-green bg-paper px-0.5 py-0 text-center font-ui text-[10px] leading-4 text-ink outline-none"
+              className="w-full rounded-[2px] border border-fern bg-paper px-0.5 py-0 text-center font-mono text-[10px] leading-4 text-ink outline-none"
             />
           ) : (
-            <span className="w-full truncate text-[10px] leading-4 text-green-deep">
+            <span className="w-full truncate text-[10px] leading-4 text-fern-deep">
               {label ?? " "}
             </span>
           )}
@@ -129,7 +129,7 @@ export function BrainfuckTape({
     <div
       ref={containerRef}
       onScroll={updateRange}
-      className="relative h-24 overflow-x-auto overflow-y-hidden rounded-md border border-border bg-card"
+      className="relative h-24 overflow-x-auto overflow-y-hidden border border-rule bg-card"
     >
       {/* Absolutely positioned so the full tape width creates scrollable
           overflow without contributing to the page's intrinsic width — the

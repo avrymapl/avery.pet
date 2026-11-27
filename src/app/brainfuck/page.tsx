@@ -1,4 +1,5 @@
 import { BrainfuckIde } from "@/components/brainfuck/BrainfuckIde";
+import { BrainfuckSettings } from "@/components/brainfuck/BrainfuckSettings";
 
 export const metadata = {
   title: "brainfuck IDE — avery.pet",
@@ -6,5 +7,10 @@ export const metadata = {
 };
 
 export default function BrainfuckPage() {
-  return <BrainfuckIde />;
+  return (
+    <div className="flex flex-col gap-6">
+      <BrainfuckSettings />
+      <BrainfuckIde />
+    </div>
+  );
 }
