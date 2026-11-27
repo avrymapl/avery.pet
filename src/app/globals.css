@@ -28,6 +28,14 @@
   --default-mono-font-family: var(--font-mono);
 }
 
+@layer base {
+  /* Always reserve room for the scrollbar, so the centred column doesn't
+     shift sideways between pages that scroll and pages that don't. */
+  html {
+    scrollbar-gutter: stable;
+  }
+}
+
 @layer components {
   /* ---- page shell ---- */
 
