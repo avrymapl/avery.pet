@@ -1,45 +1,44 @@
-export type CategoryId = "linguistics" | "science" | "programming" | "writing";
+// The catalogue of things i've made. Numbers go in the order i started the
+// projects and are never reused or renumbered.
 
-export interface Category {
-  id: CategoryId;
-  label: string;
-}
+export type Shelf = "LING" | "TOOL" | "WIKI" | "GAME" | "MUSIC" | "ART" | "VIDEO";
 
-export const categories: Category[] = [
-  { id: "linguistics", label: "linguistics" },
-  { id: "science", label: "science" },
-  { id: "programming", label: "programming" },
-  { id: "writing", label: "writing" },
-];
+export type Status = "ongoing" | "prototype" | "kennel" | "done";
 
 export interface Project {
   slug: string;
+  /** Catalogue number, shown as three digits. */
+  no: number;
+  shelf: Shelf;
+  /** The project's own casing. */
   title: string;
+  /** One line, lowercase, no full stop. */
   description: string;
-  category: CategoryId;
+  status: Status;
   href: string;
-  pinned?: boolean;
-  // Overrides the category's pixel icon for this project specifically.
-  icon?: string;
 }
 
 export const projects: Project[] = [
   {
     slug: "kawaba",
-    title: "kawaba",
-    description:
-      "the language of parts – a minimalist oligosynthetic constructed language",
-    category: "linguistics",
+    no: 3,
+    shelf: "LING",
+    title: "Kawaba",
+    description: "the language of parts – a minimalist oligosynthetic constructed language",
+    status: "ongoing",
     href: "/kawaba",
-    pinned: true,
-    icon: "kawaba",
   },
   {
     slug: "brainfuck",
+    no: 7,
+    shelf: "TOOL",
     title: "brainfuck IDE",
-    description:
-      "a time-travelling IDE for brainfuck – full execution trace with live tape preview",
-    category: "programming",
+    description: "a time-travelling IDE for brainfuck – full execution trace with live tape preview",
+    status: "kennel",
     href: "/brainfuck",
   },
 ];
+
+export function catalogueNumber(project: Project): string {
+  return `no. ${String(project.no).padStart(3, "0")} · ${project.shelf}`;
+}

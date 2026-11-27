@@ -25,11 +25,15 @@ import { useBrainfuckTrace } from "@/lib/brainfuck/useTrace";
 
 const SPEEDS = [1, 10, 100, 1_000, 10_000, 100_000, 1_000_000];
 
-const buttonClasses =
-  "cursor-pointer rounded-md border border-border bg-card px-2.5 py-1 font-ui text-sm text-ink-soft transition-colors hover:bg-green-pale/50 hover:text-green-deep disabled:cursor-default disabled:opacity-40 disabled:hover:bg-card disabled:hover:text-ink-soft";
+// One filled button (run); every other action is quiet.
+const buttonClasses = "ap-button is-quiet";
+const primaryButtonClasses = "ap-button";
 
-const headingClasses =
-  "font-ui text-xs font-semibold tracking-widest text-ink-soft uppercase";
+const headingClasses = "bf-heading";
+
+// The design system has no warning red, so problems are set in full ink at
+// medium weight, and the words say what went wrong.
+const problemClasses = "font-medium text-ink";
 
 function formatCount(value: number): string {
   return value.toLocaleString("en-AU");
@@ -288,7 +292,7 @@ export function BrainfuckIde() {
   let status: React.ReactNode;
   if (!localCompile.ok) {
     status = (
-      <span className="text-rust">
+      <span className={problemClasses}>
         {localCompile.message} on line {lineOf(source, localCompile.offset)}
       </span>
     );
@@ -296,13 +300,13 @@ export function BrainfuckIde() {
     status = <span>recording…</span>;
   } else if (trace.stopReason === "pointer-error") {
     status = (
-      <span className="text-rust">
+      <span className={problemClasses}>
         the pointer ran off the tape after {formatCount(totalSteps)} steps (wrapping is off)
       </span>
     );
   } else if (trace.stopReason === "step-limit") {
     status = (
-      <span className="text-amber">
+      <span className={problemClasses}>
         stopped at the step limit of {formatCount(STEP_LIMIT)} steps – the program may never halt
       </span>
     );
@@ -321,12 +325,12 @@ export function BrainfuckIde() {
   }, [output]);
 
   return (
-    <div className="flex flex-col gap-3 md:h-[calc(100vh-8rem)]">
+    <div className="flex flex-col gap-4 md:h-[max(36rem,calc(100vh-14rem))]">
       {/* tape */}
       <section className="flex flex-col gap-1.5">
         <div className="flex items-baseline gap-3">
           <h2 className={headingClasses}>tape</h2>
-          <span className="font-ui text-xs text-ink-soft/60">click a cell to label it</span>
+          <span className="font-mono text-[13px] leading-5 text-ink-muted">click a cell to label it</span>
         </div>
         <BrainfuckTape
           tapeLength={trace?.settings.tapeLength ?? settings.tapeLength}
@@ -342,7 +346,7 @@ export function BrainfuckIde() {
             setLabelIssue(null);
           }}
         />
-        {labelIssue && <p className="font-ui text-xs text-rust">{labelIssue}</p>}
+        {labelIssue && <p className={`font-mono text-[13px] leading-5 ${problemClasses}`}>{labelIssue}</p>}
       </section>
 
       {/* transport */}
@@ -354,7 +358,7 @@ export function BrainfuckIde() {
           <button type="button" className={buttonClasses} disabled={!trace || t <= 0} onClick={() => { pause(); setT(Math.max(0, t - 1)); }}>
             ‹ step
           </button>
-          <button type="button" className={`${buttonClasses} font-semibold`} disabled={!trace} onClick={toggleRun}>
+          <button type="button" className={`${primaryButtonClasses} min-w-20`} disabled={!trace} onClick={toggleRun}>
             {running ? "pause" : "run"}
           </button>
           <button type="button" className={buttonClasses} disabled={!trace || t >= totalSteps} onClick={() => { pause(); setT(Math.min(totalSteps, t + 1)); }}>
@@ -374,13 +378,13 @@ export function BrainfuckIde() {
               setT(Number(event.target.value));
             }}
             aria-label="trace position"
-            className="min-w-32 flex-1 accent-green"
+            className="min-w-32 flex-1 accent-fern"
           />
           <select
             value={speed}
             onChange={(event) => setSpeed(Number(event.target.value))}
             aria-label="run speed"
-            className="cursor-pointer rounded-md border border-border bg-card px-2 py-1 font-ui text-sm text-ink-soft focus:border-green focus:outline-none"
+            className="ap-input is-compact cursor-pointer"
           >
             {SPEEDS.map((value) => (
               <option key={value} value={value}>
@@ -389,11 +393,11 @@ export function BrainfuckIde() {
             ))}
           </select>
         </div>
-        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 font-ui text-xs text-ink-soft">
+        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 font-mono text-[13px] leading-5 text-ink-soft">
           <span>
             {status}
             {working && localCompile.ok && trace && (
-              <span className="text-ink-soft/60"> · re-recording…</span>
+              <span className="text-ink-muted"> · re-recording…</span>
             )}
           </span>
           {trace && (
@@ -407,16 +411,16 @@ export function BrainfuckIde() {
       {/* editor and io */}
       <div className="flex min-h-0 flex-col gap-3 md:flex-1 md:flex-row">
         <section className="flex min-h-0 min-w-0 flex-col gap-1.5 md:flex-[3]">
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+          <div className="flex min-h-8 flex-wrap items-center gap-x-3 gap-y-1">
             <h2 className={headingClasses}>program</h2>
             {caretVisits && caretVisits.length > 0 && (
-              <span className="flex items-center gap-1 font-ui text-xs text-ink-soft">
+              <span className="flex items-center gap-1 font-mono text-[13px] leading-5 text-ink-soft">
                 <button
                   type="button"
                   onClick={() => { pause(); setT(caretVisits[caretVisitIndex - 1] + 1); }}
                   disabled={caretVisitIndex <= 0}
                   aria-label="previous visit"
-                  className="cursor-pointer px-1 hover:text-green-deep disabled:cursor-default disabled:opacity-40"
+                  className="cursor-pointer px-1 text-fern hover:text-fern-deep disabled:cursor-default disabled:opacity-40"
                 >
                   ‹
                 </button>
@@ -426,14 +430,14 @@ export function BrainfuckIde() {
                   onClick={() => { pause(); setT(caretVisits[caretVisitIndex + 1] + 1); }}
                   disabled={caretVisitIndex >= caretVisits.length - 1}
                   aria-label="next visit"
-                  className="cursor-pointer px-1 hover:text-green-deep disabled:cursor-default disabled:opacity-40"
+                  className="cursor-pointer px-1 text-fern hover:text-fern-deep disabled:cursor-default disabled:opacity-40"
                 >
                   ›
                 </button>
               </span>
             )}
             {caretVisits && caretVisits.length === 0 && (
-              <span className="font-ui text-xs text-ink-soft/60">never executed</span>
+              <span className="font-mono text-[13px] leading-5 text-ink-muted">never executed</span>
             )}
             <span className="ml-auto flex items-center gap-2">
               <button type="button" className={buttonClasses} onClick={() => fileInputRef.current?.click()}>
@@ -488,7 +492,10 @@ export function BrainfuckIde() {
 
         <aside className="flex min-h-0 flex-col gap-3 md:w-80">
           <section className="flex flex-col gap-1.5">
-            <h2 className={headingClasses}>input</h2>
+            {/* Same height as the program row's buttons, so the panels line up. */}
+            <div className="flex min-h-8 items-center">
+              <h2 className={headingClasses}>input</h2>
+            </div>
             <textarea
               value={input}
               onChange={(event) => {
@@ -499,15 +506,15 @@ export function BrainfuckIde() {
               spellCheck={false}
               aria-label="program input"
               placeholder="bytes for , to read…"
-              className="resize-none rounded-md border border-border bg-card p-2.5 font-mono text-sm leading-6 text-ink focus:border-green focus:outline-none"
+              className="ap-input resize-none font-mono text-sm leading-6"
             />
             {trace && trace.inputBytes.length > 0 && (
-              <p className="font-mono text-xs break-all whitespace-pre-wrap text-ink-soft/60">
-                <span className="font-ui">
+              <p className="font-mono text-xs break-all whitespace-pre-wrap text-ink-muted">
+                <span>
                   consumed {formatCount(consumedBytes)} of {formatCount(trace.inputBytes.length)}{" "}
                   bytes ·{" "}
                 </span>
-                <span className="rounded-xs bg-green-pale text-green-deep">{consumedText}</span>
+                <span className="bg-sage text-fern-deep">{consumedText}</span>
                 <span>{remainingText}</span>
               </p>
             )}
@@ -516,9 +523,9 @@ export function BrainfuckIde() {
             <h2 className={headingClasses}>output</h2>
             <pre
               ref={outputRef}
-              className="min-h-24 flex-1 overflow-auto rounded-md border border-border bg-card p-2.5 font-mono text-sm leading-6 break-all whitespace-pre-wrap text-ink"
+              className="min-h-24 flex-1 overflow-auto border border-rule bg-card p-3 font-mono text-sm leading-6 break-all whitespace-pre-wrap text-ink"
             >
-              {output || <span className="font-ui text-ink-soft/50">no output at this step</span>}
+              {output || <span className="text-ink-muted">no output at this step</span>}
             </pre>
           </section>
         </aside>
