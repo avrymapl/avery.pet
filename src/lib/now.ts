@@ -8,6 +8,6 @@ export interface Now {
 }
 
 export const now: Now | null = {
-  text: "reading about tone sandhi, redrawing the pixel collie, writing wiki articles.",
-  updated: "2026-11-25",
+  text: "redesigning my website and building nuclear reactors in minecraft",
+  updated: "2026-11-27",
 };

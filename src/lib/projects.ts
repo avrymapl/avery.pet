@@ -1,5 +1,4 @@
-// The catalogue of things i've made. Numbers go in the order i started the
-// projects and are never reused or renumbered.
+// The catalogue of things i've made, listed in the order i started them.
 
 export type Shelf = "LING" | "TOOL" | "WIKI" | "GAME" | "MUSIC" | "ART" | "VIDEO";
 
@@ -7,7 +6,7 @@ export type Status = "ongoing" | "prototype" | "kennel" | "done";
 
 export interface Project {
   slug: string;
-  /** Catalogue number, shown as three digits. */
+  /** Order i started the projects in; not shown on the site. */
   no: number;
   shelf: Shelf;
   /** The project's own casing. */
@@ -38,7 +37,3 @@ export const projects: Project[] = [
     href: "/brainfuck",
   },
 ];
-
-export function catalogueNumber(project: Project): string {
-  return `no. ${String(project.no).padStart(3, "0")} · ${project.shelf}`;
-}
